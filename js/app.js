@@ -25,6 +25,13 @@ function shuffle(array) {
     return array;
 }
 
+//flip cards
+
+//test if cards are matching
+
+//count moves
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
