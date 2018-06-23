@@ -24,13 +24,55 @@ function shuffle(array) {
 
     return array;
 }
+// event listener - <event-target>.addEventListener(<event-to-listen-for>, <function-to-run-when-an-event-happens>);
+
 
 //flip cards
+const wholeDeck = document.querySelector('.deck')
+wholeDeck.addEventListener('click', function(event) {
+  const clickTarget = event.target;
+  if (clickTarget.classList.contains('card') && cardList.length <2) {
+    flipCard(clickTarget);
+    addCardToList(clickTarget);
+    cardsMatch();
+  }
+});
 
-//test if cards are matching
+//flips a card by toggling class
+function flipCard(card) {
+  card.classList.toggle('open');
+  card.classList.toggle('show');
+};
 
-//count moves
+//build a blank list to keep the open cards
+let cardList = [];
 
+//add cards to that list when clicked
+function addCardToList(clickTarget){
+  cardList.push(clickTarget);
+  console.log(cardList);
+};
+
+//check if this cards in the list match and clears the list
+function cardsMatch () {
+  if(
+      cardList[0].firstElementChild.className ===
+      cardList[1].firstElementChild.className
+  ) {
+      cardList[0].classList.toggle('match');
+      cardList[1].classList.toggle('match');
+      cardList = [];
+      console.log("match");
+    } else {
+      setTimeout(function() {
+        flipCard(cardList[0]);
+        flipCard(cardList[1]);
+        cardList = [];
+      }, 1000);
+    }
+}
+
+//
 
 
 /*
