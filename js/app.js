@@ -31,10 +31,17 @@ function shuffle(array) {
 const wholeDeck = document.querySelector('.deck')
 wholeDeck.addEventListener('click', function(event) {
   const clickTarget = event.target;
-  if (clickTarget.classList.contains('card') && cardList.length <2) {
+  if (clickTarget.classList.contains('card')
+      && cardList.length <2
+      && !cardList.includes(clickTarget)
+      && !clickTarget.classList.contains('match'))
+      {
     flipCard(clickTarget);
     addCardToList(clickTarget);
-    cardsMatch();
+    if (cardList.length === 2) {
+      addMove();
+      cardsMatch();
+    };
   }
 });
 
@@ -72,7 +79,13 @@ function cardsMatch () {
     }
 }
 
-//
+//move counter to count moves and replace text 
+let moveCount = 0;
+function addMove(){
+  moveCount++;
+  const numMovesText = document.querySelector('.moves');
+  numMovesText.innerHTML = moveCount;
+};
 
 
 /*
