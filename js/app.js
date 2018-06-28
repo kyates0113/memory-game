@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+deckCards =
 
 /*
  * Display the cards on the page
@@ -103,3 +103,25 @@ function removeStar() {
     }
   }
 }
+
+//set timer by listening for first click on deck and then incrmeenting secs
+var time = 0;
+wholeDeck.addEventListener('click', function(event) {
+  console.log("firstClick");
+  increment();
+}, {once : true});
+function increment(){
+        setTimeout(function(){
+            time++;
+            var mins = Math.floor(time/10/60);
+            var secs = Math.floor(time/10 % 60);
+            if(mins < 10){
+                mins = "0" + mins;
+            }
+            if(secs < 10){
+                secs = "0" + secs;
+            }
+            document.getElementById("clock").innerHTML = mins + ":" + secs;
+            increment();
+        },100)
+};
