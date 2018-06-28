@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-deckCards =
+deckCards = []
 
 /*
  * Display the cards on the page
@@ -62,6 +62,7 @@ function addCardToList(clickTarget){
 };
 
 //check if this cards in the list match and clears the list
+let matches = 0;
 function cardsMatch () {
   if(
       cardList[0].firstElementChild.className ===
@@ -71,6 +72,8 @@ function cardsMatch () {
       cardList[1].classList.toggle('match');
       cardList = [];
       console.log("match");
+      matches = matches +1;
+
     } else {
       setTimeout(function() {
         flipCard(cardList[0]);
@@ -125,3 +128,44 @@ function increment(){
             increment();
         },100)
 };
+//reset game functionality
+function resetGame(){
+  resetClock();
+  resetBoard();
+  resetStars();
+  resetMoves();
+  console.log("reset");
+};
+function resetClock(){
+  document.getElementById("clock").innerHTML = "00.00";
+};
+
+
+function resetBoard(){
+  const deckReset =  document.querySelector(".deck");
+  deckReset.classList.toggle('open');
+  deckReset.classList.toggle('show');
+  deckReset.classList.toggle('match');
+};
+function resetStars(){
+  const stars = document.querySelector('.stars li');
+  stars.style.display = "";
+};
+function resetMoves(){
+  const numMovesText = document.querySelector('.moves');
+  numMovesText.innerHTML = "0";
+};
+const replay = document.querySelector('.restart');
+replay.addEventListener('click', resetGame);
+
+//modal pop up if game is over, or all matches are found.
+// var modal = document.querySelector(".modal");
+// var closeButton = document.querySelector(".close-button");
+// function toggleModal() {
+//      modal.classList.toggle("show-modal");
+// }
+// closeButton.addEventListener("click", toggleModal);
+// const totalMatches = 2;
+// if(matches === totalMatches) {
+//    toggleModal()
+//   };
