@@ -1,14 +1,23 @@
 /*
  * Create a list that holds all of your cards
  */
-deckCards = []
+var cards = ['fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube',
+            'fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube'];
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+
+function generateCard(card) {
+    return `<li class="card"><i class="fa ${card}"></i></li>`;
+};
+
+function initGame() {
+  var deck = document.querySelector('.deck');
+  var cardHTML = cards.map(function(card) {
+    return generateCard(card);
+  });
+  deck.innerHTML =cardHTML.join('');
+};
+initGame();
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,7 +33,6 @@ function shuffle(array) {
 
     return array;
 }
-// event listener - <event-target>.addEventListener(<event-to-listen-for>, <function-to-run-when-an-event-happens>);
 
 
 //flip cards
@@ -108,12 +116,15 @@ function removeStar() {
 }
 
 //set timer by listening for first click on deck and then incrmeenting secs
-var time = 0;
+let time = 0;
+let stopTimer = false;
 wholeDeck.addEventListener('click', function(event) {
   console.log("firstClick");
   increment();
 }, {once : true});
+
 function increment(){
+    // if(stopTimer = false){
         setTimeout(function(){
             time++;
             var mins = Math.floor(time/10/60);
@@ -126,7 +137,8 @@ function increment(){
             }
             document.getElementById("clock").innerHTML = mins + ":" + secs;
             increment();
-        },100)
+        },100);
+      // }
 };
 //reset game functionality
 function resetGame(){
@@ -138,6 +150,7 @@ function resetGame(){
 };
 function resetClock(){
   document.getElementById("clock").innerHTML = "00.00";
+  stopTimer = true;
 };
 
 
