@@ -11,7 +11,7 @@ function generateCard(card) {
 
 function initGame() {
   var deck = document.querySelector('.deck');
-  var cardHTML = cards.map(function(card) {
+  var cardHTML = shuffle(cards).map(function(card) {
     return generateCard(card);
   });
   deck.innerHTML =cardHTML.join('');
@@ -117,15 +117,14 @@ function removeStar() {
 
 //set timer by listening for first click on deck and then incrmeenting secs
 let time = 0;
-let stopTimer = false;
 wholeDeck.addEventListener('click', function(event) {
   console.log("firstClick");
   increment();
 }, {once : true});
 
+var trackTime
 function increment(){
-    // if(stopTimer = false){
-        setTimeout(function(){
+        trackTime = setTimeout(function(){
             time++;
             var mins = Math.floor(time/10/60);
             var secs = Math.floor(time/10 % 60);
@@ -138,47 +137,69 @@ function increment(){
             document.getElementById("clock").innerHTML = mins + ":" + secs;
             increment();
         },100);
-      // }
 };
-//reset game functionality
-function resetGame(){
-  resetClock();
-  resetBoard();
-  resetStars();
-  resetMoves();
-  console.log("reset");
-};
+
+//stop timer & reset clock
 function resetClock(){
   document.getElementById("clock").innerHTML = "00.00";
-  stopTimer = true;
 };
 
-
-function resetBoard(){
-  const deckReset =  document.querySelector(".deck");
-  deckReset.classList.toggle('open');
-  deckReset.classList.toggle('show');
-  deckReset.classList.toggle('match');
+function stopClock() {
+  clearTimeout(trackTime);
 };
+
+//reset functionality - show stars again, reset moves,
 function resetStars(){
   const stars = document.querySelector('.stars li');
   stars.style.display = "";
 };
+
 function resetMoves(){
   const numMovesText = document.querySelector('.moves');
   numMovesText.innerHTML = "0";
 };
+
+//reset all game items
+function resetGame(){
+  stopClock();
+  resetClock();
+  resetStars();
+  resetMoves();
+  initGame();
+  console.log("reset");
+};
+
+
+//replay button event listener
 const replay = document.querySelector('.restart');
 replay.addEventListener('click', resetGame);
 
-//modal pop up if game is over, or all matches are found.
-// var modal = document.querySelector(".modal");
-// var closeButton = document.querySelector(".close-button");
-// function toggleModal() {
-//      modal.classList.toggle("show-modal");
-// }
-// closeButton.addEventListener("click", toggleModal);
-// const totalMatches = 2;
-// if(matches === totalMatches) {
-//    toggleModal()
-//   };
+//modal pop up if game is over(when all matches are found)
+var modal = document.querySelector(".modal");
+
+function toggleModal() {
+     modal.classList.toggle("show-modal");
+};
+
+const totalMatches = 2;
+
+if(matches == totalMatches) {
+   toggleModal();
+  };
+
+//make modal buttons work
+var closeButton = document.querySelector(".close-button");
+closeButton.addEventListener("click", toggleModal);
+
+var okButton = document.querySelector("#ok");
+okButton.addEventListener("click", toggleModal);
+
+var restartButton = document.querySelector("#restart");
+restartButton.addEventListener("click", function() {
+  toggleModal();
+  resetGame();
+});
+
+//add ratings to modal buttons
+var time = document.querySelector(".time");
+var rating = document.querySelector(".rating");
