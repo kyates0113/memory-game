@@ -1,10 +1,10 @@
-/*
- * Create a list that holds all of your cards
- */
+//list of all cards
 var cards = ['fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube',
             'fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube'];
-
-
+let cardList = [];
+const totalMatches = 1;
+let matches = 0;
+//start game and shuffle/generate all cards in the deck
 function generateCard(card) {
     return `<li class="card"><i class="fa ${card}"></i></li>`;
 };
@@ -17,7 +17,6 @@ function initGame() {
   deck.innerHTML =cardHTML.join('');
 };
 initGame();
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -35,7 +34,7 @@ function shuffle(array) {
 }
 
 
-//flip cards
+//flip cards if they're a match
 const wholeDeck = document.querySelector('.deck')
 wholeDeck.addEventListener('click', function(event) {
   const clickTarget = event.target;
@@ -54,23 +53,19 @@ wholeDeck.addEventListener('click', function(event) {
   }
 });
 
-//flips a card by toggling class
+//initial flips a card by toggling class
 function flipCard(card) {
   card.classList.toggle('open');
   card.classList.toggle('show');
 };
 
-//build a blank list to keep the open cards
-let cardList = [];
-
-//add cards to that list when clicked
+//add cards to the array cardList when clicked
 function addCardToList(clickTarget){
   cardList.push(clickTarget);
   console.log(cardList);
 };
 
-//check if this cards in the list match and clears the list
-let matches = 0;
+//check if this cards in the list match and clears the list, add to matches
 function cardsMatch () {
   if(
       cardList[0].firstElementChild.className ===
@@ -91,7 +86,7 @@ function cardsMatch () {
     }
 }
 
-//move counter to count moves and replace text
+//move counter to count moves and replace text in the html with # Moves
 let moveCount = 0;
 function addMove(){
   moveCount++;
@@ -101,15 +96,18 @@ function addMove(){
 
 //reduce stars as more moves happen
 function checkScore(){
-  if (moveCount === 7 || moveCount === 21 || moveCount === 14) {
+  if (moveCount === 2 || moveCount === 21 || moveCount === 14) {
     removeStar();
   }
 }
+
+var starRating = 3;
 function removeStar() {
   const stars = document.querySelectorAll('.stars li');
   for (star of stars) {
     if(star.style.display !== 'none'){
       star.style.display = 'none';
+      starRating --;
       break;
     }
   }
@@ -122,12 +120,15 @@ wholeDeck.addEventListener('click', function(event) {
   increment();
 }, {once : true});
 
-var trackTime
+var trackTime;
+var mins;
+var secs;
+
 function increment(){
         trackTime = setTimeout(function(){
             time++;
-            var mins = Math.floor(time/10/60);
-            var secs = Math.floor(time/10 % 60);
+            mins = Math.floor(time/10/60);
+            secs = Math.floor(time/10 % 60);
             if(mins < 10){
                 mins = "0" + mins;
             }
@@ -157,6 +158,7 @@ function resetStars(){
 function resetMoves(){
   const numMovesText = document.querySelector('.moves');
   numMovesText.innerHTML = "0";
+  moveCount = 0;
 };
 
 //reset all game items
@@ -167,6 +169,8 @@ function resetGame(){
   resetMoves();
   initGame();
   console.log("reset");
+  matches = 0;
+  checkMatches;
 };
 
 
@@ -178,14 +182,18 @@ replay.addEventListener('click', resetGame);
 var modal = document.querySelector(".modal");
 
 function toggleModal() {
-     modal.classList.toggle("show-modal");
+  modal.classList.toggle("show-modal");
 };
 
-const totalMatches = 2;
+function checkMatches() {
+  if(matches == totalMatches) {
+    setStats();
+    toggleModal();
+    console.log("checking matches")
+    };
+};
+checkMatches();
 
-if(matches == totalMatches) {
-   toggleModal();
-  };
 
 //make modal buttons work
 var closeButton = document.querySelector(".close-button");
@@ -200,6 +208,11 @@ restartButton.addEventListener("click", function() {
   resetGame();
 });
 
-//add ratings to modal buttons
-var time = document.querySelector(".time");
-var rating = document.querySelector(".rating");
+// add ratings to modal buttons
+var modalTime = document.querySelector(".time");
+var modalRating = document.querySelector(".rating");
+function setStats() {
+  // need to change html of these to be actual time and stars
+  modalRating.innerHTML= 'Stars: ' + starRating;
+  modalTime.innerHTML =  'Time: ' + mins + ':' + secs;
+};
