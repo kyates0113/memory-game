@@ -29,7 +29,6 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
@@ -76,7 +75,8 @@ function cardsMatch () {
       cardList = [];
       console.log("match");
       matches = matches +1;
-
+      checkMatches();
+      setStats();
     } else {
       setTimeout(function() {
         flipCard(cardList[0]);
@@ -84,7 +84,8 @@ function cardsMatch () {
         cardList = [];
       }, 1000);
     }
-}
+};
+
 
 //move counter to count moves and replace text in the html with # Moves
 let moveCount = 0;
@@ -120,7 +121,7 @@ wholeDeck.addEventListener('click', function(event) {
   increment();
 }, {once : true});
 
-var trackTime;
+var trackTime = null;
 var mins;
 var secs;
 
@@ -136,6 +137,7 @@ function increment(){
                 secs = "0" + secs;
             }
             document.getElementById("clock").innerHTML = mins + ":" + secs;
+
             increment();
         },100);
 };
@@ -143,7 +145,13 @@ function increment(){
 //stop timer & reset clock
 function resetClock(){
   document.getElementById("clock").innerHTML = "00.00";
+  time = 0;
+  wholeDeck.addEventListener('click', function(event) {
+    console.log("firstClick");
+    increment();
+  }, {once : true});
 };
+
 
 function stopClock() {
   clearTimeout(trackTime);
@@ -170,7 +178,7 @@ function resetGame(){
   initGame();
   console.log("reset");
   matches = 0;
-  checkMatches;
+  starRating = 0;
 };
 
 
@@ -186,13 +194,13 @@ function toggleModal() {
 };
 
 function checkMatches() {
-  if(matches == totalMatches) {
-    setStats();
+  if(matches === totalMatches) {
+    // setStats();
     toggleModal();
-    console.log("checking matches")
+    console.log("checking matches");
     };
 };
-checkMatches();
+
 
 
 //make modal buttons work
