@@ -2,7 +2,7 @@
 var cards = ['fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube',
             'fa-anchor', 'fa-diamond', 'fa-paper-plane-o', 'fa-bicycle', 'fa-leaf', 'fa-bolt', 'fa-bomb', 'fa-cube'];
 let cardList = [];
-const totalMatches = 1;
+const totalMatches = 8;
 let matches = 0;
 //start game and shuffle/generate all cards in the deck
 function generateCard(card) {
@@ -116,8 +116,10 @@ function removeStar() {
 
 //set timer by listening for first click on deck and then incrmeenting secs
 let time = 0;
+const replay = document.querySelector('.restart');
 wholeDeck.addEventListener('click', function(event) {
   console.log("firstClick");
+  replay.addEventListener('click', resetGame);
   increment();
 }, {once : true});
 
@@ -146,12 +148,17 @@ function increment(){
 function resetClock(){
   document.getElementById("clock").innerHTML = "00.00";
   time = 0;
+
   wholeDeck.addEventListener('click', function(event) {
     console.log("firstClick");
+    replay.addEventListener('click', resetGame);
     increment();
   }, {once : true});
 };
 
+function removeResetListener() {
+
+}
 
 function stopClock() {
   clearTimeout(trackTime);
@@ -173,18 +180,19 @@ function resetMoves(){
 function resetGame(){
   stopClock();
   resetClock();
+  replay.removeEventListener('click', resetGame);
   resetStars();
   resetMoves();
   initGame();
   console.log("reset");
   matches = 0;
   starRating = 0;
+  cardList = [];
 };
 
 
 //replay button event listener
-const replay = document.querySelector('.restart');
-replay.addEventListener('click', resetGame);
+
 
 //modal pop up if game is over(when all matches are found)
 var modal = document.querySelector(".modal");
@@ -195,7 +203,6 @@ function toggleModal() {
 
 function checkMatches() {
   if(matches === totalMatches) {
-    // setStats();
     toggleModal();
     console.log("checking matches");
     };

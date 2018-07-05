@@ -1,4 +1,5 @@
 # Memory Game Project
+This matching game will shuffle a deck of cards and allow the user to match them all by clicking on them to flip them over. The game removes stars after a certain amount of time and tracks the time with a timer.
 
 ## Table of Contents
 
@@ -6,15 +7,14 @@
 * [Contributing](#contributing)
 
 ## Instructions
+To clone the GitHub repository with all files:
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+$ git clone https://github.com/kyates0113/memory-game.git
 
-To get started, open `js/app.js` and start building out the app's functionality
+Built mainly for desktop.
+No dependencies.
+Compatible with firefox and chrome.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
 
 ## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+Please see CONTRIBUTING.md
