@@ -166,8 +166,10 @@ function stopClock() {
 
 //reset functionality - show stars again, reset moves,
 function resetStars(){
-  const stars = document.querySelector('.stars li');
-  stars.style.display = "";
+  const stars = document.querySelectorAll('.stars li');
+  for (star of stars) {
+    star.style.display = 'inline-block';
+  }
 };
 
 function resetMoves(){
@@ -178,7 +180,7 @@ function resetMoves(){
 
 //reset all game items
 function resetGame(){
-  stopClock();
+  // stopClock();
   resetClock();
   replay.removeEventListener('click', resetGame);
   resetStars();
@@ -186,7 +188,7 @@ function resetGame(){
   initGame();
   console.log("reset");
   matches = 0;
-  starRating = 0;
+  starRating = 3;
   cardList = [];
 };
 
@@ -199,6 +201,7 @@ var modal = document.querySelector(".modal");
 
 function toggleModal() {
   modal.classList.toggle("show-modal");
+    stopClock();
 };
 
 function checkMatches() {
